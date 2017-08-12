@@ -1,0 +1,143 @@
+<div class="userForm form-horizontal" id="formContainer" ng-controller="dynamicControlViewController" style="width: 99%;">
+	<ul class="nav nav-tabs">
+		<li id="fgLi" class="active" ng-class="{ active: isSet(1) }"><a href ng-click="setDeskTab(1)">Functional Group</a></li>
+		<li id="dgLi" class="active1" ng-class="{ active: isSet(2) }"><a href ng-click="setDeskTab(2)">Data Group</a></li>
+	</ul>
+</div>
+
+<div id="fgDiv" class="userForm form-horizontal" style="display: block; margin-top: 2%;" ng-controller="dynamicControlViewController">
+	<div class="container-fluid" style="margin-left: -1%;">
+		<div class="form-group" style="margin-bottom: -2%;">
+			<div class="col-sm-3">
+				<label for="xactFunctionGroupName">Function Group Name</label>
+			</div>       
+			<div class="col-sm-3">
+				<label for="activeDirectoryName">Group Directory Name</label>
+			</div>
+			<div class="col-sm-3">
+				<label for="groupDescription">Group Description</label>
+			</div>
+			<div class="col-sm-3" style="padding-left: 7%;">
+				<label for="action">Action</label>
+			</div>
+		</div>
+		<div ng-init="loadDynamicViewDataOnView()">
+			<div class="form-group" ng-repeat="functionalGroup in functionalGroups" ng-init="currentFormName='formName'+$index" style="margin-bottom: 0px;">
+				<form name="{{currentFormName}}" class="form-horizontal" id="formName" novalidate ng-submit="this[currentFormName].$valid && getSelectedAccessData.length > 0 ? addNewFunctionalGroup(this[currentFormName], $index, false) : addErrorForRole(this[currentFormName], $index);" ng-init="customDelId = 'del_'+$index">
+					<div class="col-sm-3">
+		             <input type="text" id="groupName" name="groupName" ng-model="functionalGroupObj[$index].groupName" class="form-control input-group-sm" required>
+		             <div ng-show="{{currentFormName}}.groupName.$dirty && {{currentFormName}}.groupName.$error.required"><span class="label label-danger">Enter functional group name</span></div>
+		           </div>       
+		           <div class="col-sm-3">
+		             <input type="text" id="activeDirectoryName" name="activeDirectoryName" ng-model="functionalGroupObj[$index].activeDirectoryName" class="form-control input-group-sm" required>
+		             <div ng-show="{{currentFormName}}.activeDirectoryName.$dirty && {{currentFormName}}.activeDirectoryName.$error.required"><span class="label label-danger">Enter active directory name</span></div>
+		           </div>
+		           <div class="col-sm-3">
+		           	 <input type="text" id="groupDescription" name="groupDescription" ng-model="functionalGroupObj[$index].groupDescription" class="form-control input-group-sm" required>
+		           	 <div ng-show="{{currentFormName}}.groupDescription.$dirty && {{currentFormName}}.groupDescription.$error.required"><span class="label label-danger">Enter group description</span></div>
+		           </div>
+		           <div class="col-sm-3" style="width: 19%;">
+		             <div ng-show="functionalGroupObj[$index].accessData.length > 0 || getSelectedAccessData.length > 0">
+		             	<button id="searchAccessRole" type="button" class="form-control input-group-lg btn btn-success" ng-click="searchAccessRole();">
+		             		<span ng-if="functionalGroupObj[$index].accessData.length > 0 || getSelectedAccessData.length <= 0"><strong>!</strong>&nbsp;&nbsp;{{functionalGroupObj[$index].accessData.length}} Role/s Selected</span>
+		             		<span ng-if="functionalGroupObj[$index].accessData.length <= 0 && getSelectedAccessData.length > 0"><strong>!</strong>&nbsp;&nbsp;{{getSelectedAccessData.length}} Role/s Selected</span>
+		             	</button>
+		             </div>
+		             <div ng-show="functionalGroupObj[$index].accessData.length <= 0 && getSelectedAccessData.length <= 0">
+		             	<button id="searchAccessRole" type="button" class="form-control input-group-lg btn btn-success" ng-click="searchAccessRole();">
+		             		<span>Select Role/s</span>
+		             	</button>
+		             </div>
+		             <input type="hidden" id="accessData" name="accessData" ng-value="functionalGroupObj[$index].accessData" ng-init="functionalGroupObj[$index].accessData=[]"/>
+		             <input type="hidden" id="groupType" name="groupType" ng-value="functionalGroupObj[$index].groupType" ng-init="functionalGroupObj[$index].groupType='FG'"/>
+		             <div ng-show="functionalGroupObj[$index].accessData.length <=0 && showSelectRoleError"><span class="label label-danger">Please select Role/s</span></div>
+					</div>
+		           <div id="del_div_{{$index}}" class="col-xs-1" ng-show="functionalGroupRows > 1" style="width: 7%; margin-left: -2%; display: block">
+		             <button id="deleteFunctionalGropNewRow" type="button" class="form-control input-group-lg btn btn-danger" ng-click="deleteFunctionalGropNewRow($index);">- {{functionalGroupRows}}</button>
+		           </div>
+		           <hr style="box-shadow: 0px 0px 0px 0px rgba(255, 255, 255) inset;">
+		           <div id="div_{{$index}}" class="col-sm-9" style="display: block; margin-top: 2%; margin-right: 1%;">
+		           		<div class="form-group">
+				           <div class="col-sm-3">
+				             	<button id="addNewFunctionalRow" type="submit" class="form-control input-group-lg btn btn-success">Add new row</button>
+				           </div>
+				           <div class="col-sm-3">
+				             	<button id="saveFunctionalDataMapping" type="button" class="form-control input-group-lg btn btn-success" ng-click="saveFunctionalGroupMapping(this[currentFormName], functionalGroupRows);">Save Mapping(s)</button>
+				           </div>
+		           		</div>
+		           </div>
+				</form>
+			</div>
+		</div>
+		<div>
+		           		<pre>{{functionalGroupObj}}</pre>
+		           </div>
+	</div>
+</div>
+
+<div id="dgDiv" class="userForm form-horizontal" style="display: none; margin-top: 2%;" ng-controller="dynamicControlViewController">
+	<div class="container-fluid" style="margin-left: -1%;">
+		<div class="form-group" style="margin-bottom: -2%;">
+			<div class="col-sm-3">
+				<label for="xactFunctionGroupName">Data Group</label>
+			</div>       
+			<div class="col-sm-3">
+				<label for="activeDirectoryName">Data Directory Group</label>
+			</div>
+			<div class="col-sm-3">
+				<label for="groupDescription">Group Description</label>
+			</div>
+			<div class="col-sm-3" style="padding-left: 7%;">
+				<label for="action">Action</label>
+			</div>
+		</div>
+		<div ng-init="loadInitialFormData();">
+			<div class="form-group" ng-repeat="dataGroup in dataGroups" ng-init="currentFormName='dataFormName'+$index" style="margin-bottom: 0px;">
+				<form name="{{currentFormName}}" class="form-horizontal" id="dataFormName" novalidate ng-submit="getSelectedDataGrpData.length > 0 ? addNewDataGroup(this[currentFormName], $index, false) : addErrorForData(this[currentFormName], $index);" ng-init="customDelId = 'del_'+$index">
+					<div class="col-sm-3">
+		             <input type="text" id="groupName" name="groupName" ng-model="dataGroupObj[$index].groupName" class="form-control input-group-sm" required>
+		             <div ng-show="{{currentFormName}}.groupName.$dirty && {{currentFormName}}.groupName.$error.required"><span class="label label-danger">Enter data group name</span></div>
+		           </div>       
+		           <div class="col-sm-3">
+		             <input type="text" id="activeDirectoryName" name="activeDirectoryName" ng-model="dataGroupObj[$index].activeDirectoryName" class="form-control input-group-sm" required>
+		             <div ng-show="{{currentFormName}}.activeDirectoryName.$dirty && {{currentFormName}}.activeDirectoryName.$error.required"><span class="label label-danger">Enter data directory name</span></div>
+		           </div>
+		           <div class="col-sm-3">
+		           	 <input type="text" id="groupDescription" name="groupDescription" ng-model="dataGroupObj[$index].groupDescription" class="form-control input-group-sm" required>
+		           	 <div ng-show="{{currentFormName}}.groupDescription.$dirty && {{currentFormName}}.groupDescription.$error.required"><span class="label label-danger">Enter group description</span></div>
+		           </div>
+		           <div class="col-sm-3" style="width: 19%;">
+		             <div ng-show="dataGroupObj[$index].accessData.length > 0 || getSelectedDataGrpData.length > 0">
+		             	<button id="searchAccessRole" type="button" class="form-control input-group-lg btn btn-success" ng-click="mapDataFaucet();">
+		             		<span ng-if="dataGroupObj[$index].accessData.length > 0 || getSelectedDataGrpData.length <= 0"><strong>!</strong>&nbsp;&nbsp;{{dataGroupObj[$index].accessData.length}} Role/s Selected</span>
+		             		<span ng-if="dataGroupObj[$index].accessData.length <= 0 && getSelectedDataGrpData.length > 0"><strong>!</strong>&nbsp;&nbsp;{{getSelectedDataGrpData.length}} Role/s Selected</span>
+		             	</button>
+		             </div>
+		             <div ng-show="dataGroupObj[$index].accessData.length <= 0 && getSelectedDataGrpData.length <= 0">
+		             	<button id="searchAccessRole" type="button" class="form-control input-group-lg btn btn-success" ng-click="mapDataFaucet();">
+		             		<span>Select Role/s</span>
+		             	</button>
+		             </div>
+		             <input type="hidden" id="accessData" name="accessData" ng-value="dataGroupObj[$index].accessData" ng-init="dataGroupObj[$index].accessData=[]"/>
+		             <input type="hidden" id="groupType" name="groupType" ng-value="dataGroupObj[$index].groupType" ng-init="dataGroupObj[$index].groupType='DG'"/>
+		             <div ng-show="dataGroupObj[$index].accessData.length <=0 && showSelectDataError"><span class="label label-danger">Please select data/s</span></div>
+					</div>
+		           <div id="del_div_{{$index}}" class="col-xs-1" ng-show="dataGroupRows > 1" style="width: 7%; margin-left: -2%; display: block">
+		             <button id="deleteFunctionalGropNewRow" type="button" class="form-control input-group-lg btn btn-danger" ng-click="deleteDataGropNewRow($index);">- {{dataGroupRows}}</button>
+		           </div>
+		           <hr style="box-shadow: 0px 0px 0px 0px rgba(255, 255, 255) inset;">
+		           <div id="div_data_{{$index}}" class="col-sm-9" style="display: block; margin-top: 2%; margin-right: 1%;">
+		           		<div class="form-group">
+				           <div class="col-sm-3">
+				             	<button id="addNewFunctionalRow" type="submit" class="form-control input-group-lg btn btn-success">Add new row</button>
+				           </div>
+				           <div class="col-sm-3">
+				             	<button id="saveFunctionalDataMapping" type="button" class="form-control input-group-lg btn btn-success" ng-click="saveDataGroupMapping(this[currentFormName], dataGroupRows);">Save Mapping(s)</button>
+				           </div>
+		           		</div>
+		           </div>
+				</form>
+			</div>
+		</div>
+	  </div>
+</div>

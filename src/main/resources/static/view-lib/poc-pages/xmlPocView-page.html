@@ -1,0 +1,81 @@
+<!-- <div class="container" ng-init="getListData()">
+  <h2>Flat File Data</h2>
+  <p>Data read from file</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Exception ID</th>
+        <th>Company</th>
+        <th>Profile</th>
+        <th>Exceptoin Type</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="data in dataMap">
+      <tr>
+        <td>{{data.EXECPID}}</td>
+        <td>{{data.Company}}</td>
+        <td>{{data.Profile}}</td>
+        <td>{{data.EXECPTYPE}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+<div class="container" ng-init="getFieldList(); getDataOfDropDown();">
+	<form name="searchForm" class = "bs-example bs-example-form" role = "form">
+      <div class = "row">
+         <div class = "col-lg-6">
+            <div class = "input-group">
+               <div class = "input-group-btn">
+                  <button type = "button" class = "btn btn-default dropdown-toggle" data-toggle = "dropdown">{{serachSelectedField}}<span class = "caret"></span></button>
+                  <ul class = "dropdown-menu">
+                     <li ng-repeat="data in dataList"><a ng-click="setDataForSearch($event, data.fieldName, data.mappingName, data.htmlType)">{{data.mappingName}}</a></li>
+                     <!-- <li class = "divider"></li> -->
+                  </ul>
+               </div>
+               <input ng-if="showComponent=='text' || showComponent=='default'" type = "text" class = "form-control" id="searchText" name="searchText" ng-model="formData.searchText" placeholder={{placeHolderMsg}} />
+               
+               <input ng-if="showComponent=='autoPopulate'" type = "text" class = "form-control" id="searchText" name="searchText" ng-model="formData.searchText" autocomplete="true" ng-change="getDataForAutoComplete()" placeholder={{placeHolderMsg}} />
+               
+               <select ng-if="showComponent=='selectText'" class="form-control" id="searchText" name="searchText" ng-model="formData.searchText" ng-options="o for o in currencyData">
+			      <option value="">{{placeHolderMsg}}</option>
+			   </select>
+			   
+			   <select ng-if="showComponent=='selectNumber'" class="form-control" id="searchText" name="searchText" ng-model="formData.searchText" ng-options="o*1 for o in currencyData">
+			      <option value="">{{placeHolderMsg}}</option>
+			   </select>
+            </div>
+         </div>
+         <button type="button" id="searchButton" name="searchButton" class="btn btn-info" ng-click="searchDataForField()">Go</button>
+      </div>
+   </form>
+</div>
+<hr>
+<div class="container" ng-init="getListData()" style="width: 100%;">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Flat File Data</strong>
+		</div>
+		<div ng-show="showLoader">
+    		<img width="7%" ng-src="./images/giphy.gif" class="img-responsive center-block"></img>
+		</div>
+		<table class="table table-striped" ng-hide="hideTableInSearch">
+			<thead>
+				<tr>
+					<th  ng-repeat="(header, value) in dataMap[0]">
+						<span ng-repeat="fieldData in fieldList" class="text-center">
+							<span ng-if="header=='ID' && $index <= 0">Exception ID</span>
+							<span ng-if="header==fieldData.fieldName">{{fieldData.mappingName}}</span>
+						</span>
+					</th>
+					<th ng-show="dataMap.length > 0">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in dataMap">
+					<td ng-repeat="cell in row" class="text-center">{{cell}}</td>
+					<td><button class="btn btn-primary" ng-click="editCurrentRow(row)">Edit</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

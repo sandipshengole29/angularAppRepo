@@ -1,0 +1,13 @@
+<div class="container" ng-init="initData()">
+	<form class="form-inline">
+		<div class="form-group row">
+			<div class="offset-sm-2 col-sm-6">
+				<button type="button" class="btn btn-primary" ng-click="readDataFromFlatFile()">Read Data from File</button>
+				<span class="label label-primary">{{showMsg}}</span>
+			</div>
+			<div class="offset-sm-2 col-sm-6">
+				<button type="button" class="btn btn-primary" ng-click="showDataOfFlatFile($event)">Show Data on page</button>
+			</div>
+		</div>
+	</form>
+</div>

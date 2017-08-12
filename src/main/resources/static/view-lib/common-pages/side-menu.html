@@ -1,0 +1,38 @@
+<div id="wrapper" class="" ng-controller="navigationController">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" style="margin-top: -19px;">
+        <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+            <li id="li_1" class="active">
+                <a ng-click="loadLandingPage($event, 1)" href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
+                  <!-- <ul class="nav-pills nav-stacked" style="list-style-type: none; display: none;">
+                    <li><a href="#">link1</a></li>
+                    <li><a href="#">link2</a></li>
+                  </ul> -->
+            </li>
+            <li id="li_2" class="noactive">
+                <a ng-click="loadXmlPocPage($event, 2)" href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>XML POC</a>
+                <!-- <ul class="nav-pills nav-stacked" style="list-style-type: none; display: none;">
+                    <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link1</a></li>
+                    <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link2</a></li>
+
+                </ul> -->
+            </li>
+            <li id="li_3" class="noactive">
+                <a ng-click="loadDynamicControlPage($event, 3)" href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Dynamic View</a>
+            </li>
+            <li id="li_4" class="noactive">
+                <a ng-click="loadXmlFieldMappingPage($event, 4)" href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>XML Field Mapping</a>
+            </li>
+            <li id="li_5" class="noactive">
+                <a ng-click="loadAboutPage($event, 5)" href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>About</a>
+            </li>
+            <li id="li_6" class="noactive">
+                <a ng-click="loadServicePage($event, 6)" href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
+            </li>
+            <li id="li_7" class="noactive">
+                <a ng-click="loadContactPage($event, 7)" href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
+            </li>
+        </ul>
+    </div><!-- /#sidebar-wrapper -->
+</div>

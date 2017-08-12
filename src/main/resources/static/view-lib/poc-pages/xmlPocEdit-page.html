@@ -1,0 +1,57 @@
+<div ng-show="showLoader">
+  	<img width="7%" ng-src="./images/giphy.gif" class="img-responsive center-block"></img>
+</div>
+<div ng-init="loadEditPageData()">
+	<form class="form-horizontal" name="editForm" role = "editForm">
+		<div id="updateXmlDiv" name="" class="form-group" ng-repeat="fieldData in dataList">
+			<label class="control-label col-sm-3" for="{{fieldData.fieldName}}">{{fieldData.mappingName}}:</label>
+			<div ng-if="fieldData.htmlType == 'text'">
+				<div class="col-sm-4">
+					<input type="{{fieldData.htmlType}}" class="form-control" id="{{fieldData.fieldName}}" name="{{fieldData.fieldName}}" placeholder="Enter {{fieldData.mappingName}}" ng-model="formData[fieldData.fieldName]" required>
+					<div ng-show="editForm.{{fieldData.fieldName}}.$error.required"><span class="label label-danger">Please enter {{fieldData.mappingName}}</span></div>
+				</div>
+			</div>
+			
+			<div ng-if="fieldData.htmlType == 'autoPopulate'">
+				<div class="col-sm-4">
+					<input type="{{fieldData.htmlType}}" class="form-control" id="{{fieldData.fieldName}}" name="{{fieldData.fieldName}}" placeholder="Enter {{fieldData.mappingName}}" ng-model="formData[fieldData.fieldName]" my-Directive autocomplete="true" ng-change="getDataForAutoCompleteOnEdit(fieldData.fieldName, fieldData.mappingName)" required>
+					<div ng-show="editForm.{{fieldData.fieldName}}.$error.required"><span class="label label-danger">Please enter {{fieldData.mappingName}}</span></div>
+				</div>
+			</div>
+			
+			<div ng-if="fieldData.htmlType == 'selectText'" ng-init="getDataOfDropDownOnEdit(fieldData.fieldName, 'selectText')">
+				<div class="col-sm-4">
+					<select class="form-control" id="{{fieldData.fieldName}}" name="{{fieldData.fieldName}}" ng-model="formData[fieldData.fieldName]" ng-options="o for o in dropDown_{{fieldData.fieldName}}" required>
+				      <option value="">Select {{fieldData.mappingName}}</option>
+				    </select>
+				    <div ng-show="editForm.{{fieldData.fieldName}}.$error.required"><span class="label label-danger">Please select {{fieldData.mappingName}}</span></div>
+				</div>
+			</div>
+			
+			<div ng-if="fieldData.htmlType == 'selectNumber'" ng-init="getDataOfDropDownOnEdit(fieldData.fieldName, 'selectNumber')">
+				<div class="col-sm-4">
+					<select class="form-control" id="{{fieldData.fieldName}}" name="{{fieldData.fieldName}}" ng-model="formData[fieldData.fieldName]" ng-options="o*1 as o for o in dropDown_{{fieldData.fieldName}}" required>
+				      <option value="">Select {{fieldData.mappingName}}</option>
+				    </select>
+				    <div ng-show="editForm.{{fieldData.fieldName}}.$error.required"><span class="label label-danger">Please select {{fieldData.mappingName}}</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-8" ng-show="showButtons" style="margin-left: 22%;">
+			<div class="form-group">
+				<div class="col-sm-2">
+					<button id="addNewFunctionalRow" type="submit" class="form-control input-group-lg btn btn-danger" ng-click="viewListPage()">Back</button>
+				</div>
+				<div class="col-sm-3">
+					<button id="saveFunctionalDataMapping" type="button" class="form-control input-group-lg btn btn-success" ng-click="updateXMLData()">Update XML Data</button>
+				</div>
+			</div>
+			<span class="label label-danger" style="margin-left: 4%;">{{showMsg}}</span>
+		</div>
+	</form>
+</div>
+
+<!-- <div class="pull-left" style="margin-left: 12%;">
+	<pre>{{formData | json}}</pre>
+</div> -->

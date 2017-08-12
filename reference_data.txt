@@ -1,0 +1,12 @@
+SELECT distinct(extractValue(exception_feed, '/exceptionFeed/TradeId')) FROM EXCEPTION_XML 
+WHERE extractValue(exception_feed, '/exceptionFeed/TradeId') like '%12%';
+
+
+CREATE INDEX EXCEPTION_XML_TRADE_ID_INDEX ON EXCEPTION_XML(exception_feed) INDEXTYPE IS CTXSYS.CONTEXT;
+
+
+SELECT distinct(extractValue(exception_feed, '/exceptionFeed/TradeId')) FROM EXCEPTION_XML 
+WHERE contains(exception_feed, '12 INPATH (/exceptionFeed/TradeId)') > 0;
+
+
+CREATE INDEX EXCEPTION_XML_TRADE_ID_INDEX ON EXCEPTION_XML (extractValue(exception_feed, '/exceptionFeed/TradeId'));  

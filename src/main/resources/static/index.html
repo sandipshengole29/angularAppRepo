@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<title>Wel-Come Application</title>
+
+<head>
+<meta charset="utf-8">
+
+<!-- CSS -->
+<link rel="stylesheet" href="css-lib/bootstrap.min.css">
+<link rel="stylesheet" href="css-lib/custom-css.css">
+<link rel="stylesheet" href="css-lib/font-awesome.css">
+<link rel="stylesheet" href="css-lib/jquery-ui.css">
+
+<script src="js-lib/jquery.min.js"></script>
+<script src="js-lib/jquery-ui.min.js"></script>
+
+<!-- JS -->
+<!-- load angular, nganimate, and ui-router -->
+<!-- <script src="js-lib/jquery-1.11.2.min.js"></script> -->
+<script src="js-lib/angular.min.js"></script>
+<script src="js-lib/angular-ui-router.min.js"></script>
+<script src="js-lib/angular-animate.min.js"></script>
+<script src="js-lib/angular-route.min.js"></script>
+<script src="js-lib/bootstrap.min.js"></script>
+<script src="custom-js/sidebar_menu.js"></script>
+<script src="js-lib/ui-bootstrap-tpls-2.5.0.js"></script>
+
+<script src="app-js/app.js"></script>
+<script src="app-js/controller/LoginPageController.js"></script>
+<script src="app-js/controller/LandingPageController.js"></script>
+<script src="app-js/controller/NavigationController.js"></script>
+<script src="app-js/controller/XMLPocPageController.js"></script>
+<script src="app-js/controller/DynamicControlViewController.js"></script>
+<script src="app-js/controller/XMLFieldMappingController.js"></script>
+<script src="app-js/controller/SerachAccessRoleController.js"></script>
+
+<script src="app-js/factory/RestFactory.js"></script>
+
+<script src="app-js/service/XMLPocPageService.js"></script>
+<script src="app-js/service/SharedService.js"></script>
+<script src="app-js/service/SharedServiceForDynamicControls.js"></script>
+<script src="app-js/service/DynamicControlViewService.js"></script>
+
+<script src="app-js/service/AuthenticationService.js"></script>
+</head>
+
+<body ng-app="app">
+
+	<!-- views will be injected here -->
+	<div class="container" ng-show="!authenticated">
+		<div class="row"><div class="text-center" ng-include="'view-lib/common-pages/header.html'"></div></div>
+		<div class="well" ng-if="!authenticated"><ui-view></ui-view></div>
+	</div>
+
+	<!-- <div ng-show="authenticated">
+		<div class="text-center" ng-include="'view-lib/common-pages/header.html'"></div>
+		<div ng-include="'view-lib/common-pages/side-menu.html'" style="height: 400px;"></div>
+		<div><ui-view></ui-view></div>
+		<div class="text-center" ng-include="'view-lib/common-pages/footer.html'"></div>
+	</div> -->
+	
+	<div class="well" ng-show="authenticated">
+		<div class="row"><div id="headerDiv" class="text-center" ng-include="'view-lib/common-pages/header.html'"></div></div>
+	  	<div class="row">
+			<div id="sideMenuDiv" class="container col-lg-3 well" ng-include="'view-lib/common-pages/side-menu.html'" style="width: 13%; height: 450px;"></div>
+			<div id="bodyDiv" class="container col-lg-9 well" style="width: 82%; margin-left: 3%;"><ui-view></ui-view></div>
+			<div id="previewDiv" ng-show="showEditpage" class="container col-lg-9 well" ng-include="'view-lib/poc-pages/xmlPocEdit-page.html'" style="width: 33%;"></div>
+	  	</div>
+	  	<div class="row"><div id="footerDiv" class="text-center" ng-include="'view-lib/common-pages/footer.html'"></div></div>
+	</div>
+</body>
+
+</html>

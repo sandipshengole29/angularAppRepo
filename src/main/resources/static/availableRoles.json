@@ -1,0 +1,28 @@
+[{
+	"id": 1,
+	"name": "Create WorkList"
+}, {
+	"id": 2,
+	"name": "Edit WorkList"
+}, {
+	"id": 3,
+	"name": "Delete WorkList"
+}, {
+	"id": 4,
+	"name": "View WorkList"
+},{
+	"id": 5,
+	"name": "Create Employee"
+},{
+	"id": 6,
+	"name": "Edit Employee"
+},{
+	"id": 7,
+	"name": "Delete Employee"
+},{
+	"id": 8,
+	"name": "View Employee"
+},{
+	"id": 9,
+	"name": "Transfar Employee"
+}]

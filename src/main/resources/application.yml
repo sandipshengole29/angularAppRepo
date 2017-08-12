@@ -1,0 +1,19 @@
+#Application Property
+
+
+#Log file path
+logging:
+  file: /tmp/spring-boot-mvc.log
+  level:
+      day4.cityTemp.assignment: DEBUG
+      org.springframework: INFO
+      
+#Server property 
+server:
+  port: 8081
+  contextPath: /angularApp  
+
+spring:
+  devtools:
+    restart:
+      exclude: static/**,public/**
