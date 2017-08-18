@@ -51,6 +51,18 @@ app.config(function($locationProvider, $urlRouterProvider, $stateProvider) {
 		templateUrl : 'view-lib/xmlFieldMapping-pages/xmlMappingView-page.html',
 		controller : 'xmlFieldMappingController'
 	});
+	
+	$stateProvider.state('showAndHideView-page', {
+		url : '/showAndHideView-page',
+		templateUrl : 'view-lib/showAndHide/showAndHideView-page.html',
+		controller : 'showAndHideDemoController'
+	});
+	
+	$stateProvider.state('showAndHideEdit-page', {
+		url : '/showAndHideEdit-page',
+		templateUrl : 'view-lib/showAndHide/showAndHideEdit-page.html',
+		controller : 'showAndHideDemoController'
+	});
 
 	$urlRouterProvider.otherwise('/login-page');
 	$locationProvider.html5Mode(false);

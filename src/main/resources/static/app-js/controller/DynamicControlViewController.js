@@ -149,7 +149,9 @@ app.controller('dynamicControlViewController', function($rootScope, $scope, $tim
 		//alert("rootscope Data:  "+ $rootScope.getSelectedAccessData);
 		//var index = rowNumber -1;
 		//alert(fromName.$invalid);
-		//console.log("here3");
+		console.log("here3");
+		$scope.isEdit = false;
+		
 		if(!fromName.$invalid){
 			$scope.functionalFormArray.push(fromName);
 			console.log("current_form: " + angular.toJson(fromName));
@@ -400,6 +402,7 @@ app.controller('dynamicControlViewController', function($rootScope, $scope, $tim
 		var keepGoing = true;
 		var keepGoing1 = true;
 		
+		console.log("currentRow: " + currentRow);
 		if(currentRow === 1){
 			$scope.functionalFormArray.push(fromName);
 		}
@@ -538,45 +541,53 @@ app.controller('dynamicControlViewController', function($rootScope, $scope, $tim
 		$scope.baseUrl = $location.absUrl().substr(0, $location.absUrl().lastIndexOf("#"));
 		var url = $scope.baseUrl+"dynaView/getDynaViewData/fg/1";
 		var i = 0;
+		$scope.isEdit = false;
 		dynamicControlViewService.getDynamicControlData(url, function(response) {
 			console.log("response.length: " + response.length);
 			if(response.length > 0){
+				$scope.isEdit = true;
 				$scope.functionalGroups = [];
 				/*$scope.functionalGroupObj = response;
 				$scope.functionalGroups.push(response);*/
 				
 				var lastIndex = (response.length)-1;
 				console.log("lastIndex: " + lastIndex);
+				$scope.functionalGroupRows = response.length;
 				
 				angular.forEach(response, function(value, key) {
 					console.log(key +" :: "+ angular.toJson(value));
-					var object = {groupType: value,
+					$scope.tempObject1 = {
+							groupType: value.groupType,
 							groupName: value.groupName,
 							activeDirectoryName: value.activeDirectoryName,
 							groupDescription: value.groupDescription,
-							accessData: value.accessData
-					};
+							accessData: []
+					}
 					
-					$scope.functionalGroupObj[i] = object;
-					$scope.functionalGroups.push(object);
+					angular.forEach(value.accessData, function(value, key) {
+		    			console.log("5 : " + value.id);
+		                console.log("6 : " + value.name);
+		                $scope.tempObject2 = {
+		                		id: value.id,
+		                		name: value.name
+		                };
+		                $scope.tempObject1.accessData.push($scope.tempObject2);
+		            });
+					
+					$scope.functionalGroupObj[i] = $scope.tempObject1;
+					
+					if(key == lastIndex){
+						$rootScope.getSelectedAccessData = $scope.functionalGroupObj[lastIndex].accessData;
+					}
+					
+					$scope.functionalGroups.push($scope.tempObject1);
 					i++;
 			    });
-
-				/*for (var i = response.length; i >= 0; i--) {
-					$scope.functionalGroupObj[i] = response[i];
-					//console.log('functionalGroupObj: '+ i + angular.toJson($scope.functionalGroupObj[i].accessData));
-					console.log('response: '+ i + angular.toJson(response[i].accessData));
-				}*/
 				
+			}else{
+				$scope.loadInitialFormData();
 			}
 			
-			/*if(key === index){
-            	var divId = "#div_"+ key;
-        		console.log("hide_div_Id: " + divId);
-        		selectedElement = angular.element(divId);
-        		console.log("selectedElement: " + angular.toJson(selectedElement));
-                selectedElement.attr("style", "display: none; margin-top: 0%;");
-            }*/
 		});
 	}
 });

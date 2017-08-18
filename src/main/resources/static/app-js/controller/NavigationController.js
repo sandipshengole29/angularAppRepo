@@ -26,9 +26,9 @@ app.controller('navigationController', function($scope, $location, $http, $state
 		$scope.manageActive(linkNumber);
 	};
 	
-	$scope.loadAboutPage = function(event, linkNumber) {
+	$scope.showAndHideDemo = function(event, linkNumber) {
 		event.preventDefault();
-		$state.go("landing-page");
+		$state.go("showAndHideView-page");
 		$scope.manageActive(linkNumber);
 	};
 	

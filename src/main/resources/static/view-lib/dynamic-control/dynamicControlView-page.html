@@ -48,7 +48,8 @@
 		             		<span>Select Role/s</span>
 		             	</button>
 		             </div>
-		             <input type="hidden" id="accessData" name="accessData" ng-value="functionalGroupObj[$index].accessData" ng-init="functionalGroupObj[$index].accessData=[]"/>
+		             <span ng-if = "!isEdit"><input type="hidden" id="accessData" name="accessData" ng-value="functionalGroupObj[$index].accessData" ng-init="functionalGroupObj[$index].accessData=[]"/></span>
+		             <span ng-if = "isEdit"><input type="hidden" id="accessData" name="accessData" ng-value="functionalGroupObj[$index].accessData" ng-init="functionalGroupObj[$index].accessData"/></span>
 		             <input type="hidden" id="groupType" name="groupType" ng-value="functionalGroupObj[$index].groupType" ng-init="functionalGroupObj[$index].groupType='FG'"/>
 		             <div ng-show="functionalGroupObj[$index].accessData.length <=0 && showSelectRoleError"><span class="label label-danger">Please select Role/s</span></div>
 					</div>
@@ -70,8 +71,8 @@
 			</div>
 		</div>
 		<div>
-		           		<pre>{{functionalGroupObj}}</pre>
-		           </div>
+        	<pre>{{functionalGroupObj}}</pre>
+        </div>
 	</div>
 </div>
 

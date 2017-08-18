@@ -1,0 +1,21 @@
+<!-- <div id = "showHideContainer">
+	<div id = "viewPageDiv" ng-init = "initPage()" style="width: 85%;">
+		<strong>Data for view page</strong>
+		<button type="button" class="btn btn-primary" ng-click = "showEditPage()">Edit</button>
+	</div>
+	
+	<div id="showEditDiv" class="container col-lg-9 well" style="width: 35%; display: none;">
+		<div ng-include="'view-lib/showAndHide/showAndHideEdit-page.html'"></div>
+	</div>
+</div> -->
+
+<div class="row">
+	<div id = "viewPageDiv" ng-init = "initPage()" class="col-md-12">
+		<strong>Data for view page</strong>
+		<button type="button" class="btn btn-primary" ng-click = "showEditPage()">Edit</button>
+	</div>
+	
+	<div id="showEditDiv" class="col-md-6" style="display: none;">
+		<div ng-include="'view-lib/showAndHide/showAndHideEdit-page.html'"></div>
+	</div>
+</div>

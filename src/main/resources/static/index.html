@@ -34,6 +34,7 @@
 <script src="app-js/controller/DynamicControlViewController.js"></script>
 <script src="app-js/controller/XMLFieldMappingController.js"></script>
 <script src="app-js/controller/SerachAccessRoleController.js"></script>
+<script src="app-js/controller/ShowAndHideDemoController.js"></script>
 
 <script src="app-js/factory/RestFactory.js"></script>
 
@@ -63,9 +64,8 @@
 	<div class="well" ng-show="authenticated">
 		<div class="row"><div id="headerDiv" class="text-center" ng-include="'view-lib/common-pages/header.html'"></div></div>
 	  	<div class="row">
-			<div id="sideMenuDiv" class="container col-lg-3 well" ng-include="'view-lib/common-pages/side-menu.html'" style="width: 13%; height: 450px;"></div>
+			<div id="sideMenuDiv" class="container col-lg-3 well" ng-include="'view-lib/common-pages/side-menu.html'" style="width: 13%; height: 450px; display: block;"></div>
 			<div id="bodyDiv" class="container col-lg-9 well" style="width: 82%; margin-left: 3%;"><ui-view></ui-view></div>
-			<div id="previewDiv" ng-show="showEditpage" class="container col-lg-9 well" ng-include="'view-lib/poc-pages/xmlPocEdit-page.html'" style="width: 33%;"></div>
 	  	</div>
 	  	<div class="row"><div id="footerDiv" class="text-center" ng-include="'view-lib/common-pages/footer.html'"></div></div>
 	</div>
