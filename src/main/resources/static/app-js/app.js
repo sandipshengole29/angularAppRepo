@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['ui.router', 'ngAnimate', 'ui.bootstrap']);
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'ui.bootstrap','angularUtils.directives.dirPagination']);
 
 app.config(function($locationProvider, $urlRouterProvider, $stateProvider) {
 

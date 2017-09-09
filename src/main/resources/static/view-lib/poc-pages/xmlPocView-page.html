@@ -1,3 +1,15 @@
+<style>
+<!--
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
+}
+
+th {
+    cursor:pointer;
+}
+-->
+</style>
 <!-- <div class="container" ng-init="getListData()">
   <h2>Flat File Data</h2>
   <p>Data read from file</p>            
@@ -61,21 +73,28 @@
 		<table class="table table-striped" ng-hide="hideTableInSearch">
 			<thead>
 				<tr>
-					<th  ng-repeat="(header, value) in dataMap[0]">
+					<th  ng-repeat="header in headersArray" ng-click="sort(header)">
 						<span ng-repeat="fieldData in fieldList" class="text-center">
 							<span ng-if="header=='ID' && $index <= 0">Exception ID</span>
 							<span ng-if="header==fieldData.fieldName">{{fieldData.mappingName}}</span>
 						</span>
+						<span class="glyphicon sort-icon" ng-show="sortKey==header" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					</th>
 					<th ng-show="dataMap.length > 0">Edit</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="row in dataMap">
-					<td ng-repeat="cell in row" class="text-center">{{cell}}</td>
+				<tr dir-paginate="row in dataJsonArray |orderBy:sortKey:reverse |itemsPerPage:2">
+					<td ng-repeat="header in headersArray" class="text-center">{{row[header]}}</td>
+					<!-- <td ng-repeat="cell in row" class="text-center">{{cell}}</td> -->
 					<td><button class="btn btn-primary" ng-click="editCurrentRow(row)">Edit</button></td>
 				</tr>
 			</tbody>
 		</table>
+		<dir-pagination-controls
+	       max-size="5"
+	       direction-links="true"
+	       boundary-links="true" style="padding-left: 36%;">
+	    </dir-pagination-controls>
 	</div>
 </div>

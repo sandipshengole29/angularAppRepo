@@ -20,6 +20,9 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 	$scope.placeHolderMsg = "Search Input";
 	$scope.isInitialised = false;
 	
+	$scope.headersArray=[];
+	$scope.dataJsonArray=[];
+	
 	$scope.updateFormData={
 			"exceptionId":null,
 			"dataMap":null,
@@ -69,11 +72,22 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 			xmlPocPageService.getFileData(url, function(result) {
 				$scope.showLoader=false;
 				$scope.dataMap = result.EXCEPTION_DATA;
+				$scope.headersArray = Object.keys($scope.dataMap[0]);
+				console.log("headers: " + angular.toJson(Object.keys($scope.dataMap[0])));
+				
+				$scope.dataJsonArray = angular.fromJson(result.EXCEPTION_DATA);
+				console.log("dataJsonArray: " + $scope.dataJsonArray);
+				
 				$scope.fieldList = result.FIELD_LIST;
 				//console.log("complete_data: " + angular.toJson($scope.dataMap));
 			});
         });
 	};
+	
+	$scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
 	
 	$scope.setDataForSearch = function(event, searchField, selectedFieldVal, htmlComponent){
 		//console.log("serachField: " + selectedFieldVal);

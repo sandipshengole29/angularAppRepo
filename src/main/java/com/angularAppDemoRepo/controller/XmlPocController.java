@@ -1,7 +1,7 @@
 package com.angularAppDemoRepo.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +82,7 @@ public class XmlPocController {
     public ResponseEntity<Map<String, Object>> viewFileData() {
         List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<FieldXmlMapping> fieldsList = new ArrayList<FieldXmlMapping>();
         try {
             exceptionXmls = this.exceptionXmlService.getSavedXmlData();
@@ -114,7 +114,7 @@ public class XmlPocController {
     @PostMapping(value = "/searchFieldData", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> getSearchDataOfField(@RequestBody final ExceptionXMLPojo exceptionXMLPojo) {
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
         try {
             XmlPocController.LOGGER.info("serachText: " + exceptionXMLPojo.getSearchText());
@@ -152,7 +152,7 @@ public class XmlPocController {
     @GetMapping(value = "/getExceptionForId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> getExceptionForId(@PathVariable(value = "id") final Long exceptionID) {
         ExceptionXml exceptionXml = null;
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
         List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
         try {

@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.angularAppDemoRepo.model.ExceptionXml;
 import com.angularAppDemoRepo.model.FieldXmlMapping;
 import com.angularAppDemoRepo.service.ExceptionXmlService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Component
@@ -36,7 +36,7 @@ public class XmlToJsonUtil {
         Map<String, Object> jsonDataMap = null;
         try {
             for (ExceptionXml exceptionXml : exceptionXmls) {
-                Map<String, Object> dataMap = new HashMap<String, Object>();
+                Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
                 dataMap.put("ID", exceptionXml.getExceptionId());
 
                 InputStream inputStream =
@@ -65,7 +65,7 @@ public class XmlToJsonUtil {
 
     public Map<String, Object> prepareMapToDisplay(final Map<String, Object> dataMap) {
         List<FieldXmlMapping> displayList = new ArrayList<FieldXmlMapping>();
-        Map<String, Object> returnMap = new HashMap<String, Object>();
+        Map<String, Object> returnMap = new LinkedHashMap<String, Object>();
         try {
             displayList = this.exceptionXmlService.getListOfFieldXmlMapping();
             if (null != displayList && !(displayList.isEmpty())) {

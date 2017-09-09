@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.angularAppDemoRepo.model.FieldXmlMapping;
 
-@Repository
+@RepositoryRestResource(collectionResourceRel = "fieldXmlMapping", path = "fieldXmlMapping")
 public interface IFieldXmlMappingRepository extends JpaRepository<FieldXmlMapping, Long> {
 
     @Query(value = "SELECT fxm FROM FieldXmlMapping fxm WHERE fxm.uiVisibility='Y' ORDER BY id ASC")
