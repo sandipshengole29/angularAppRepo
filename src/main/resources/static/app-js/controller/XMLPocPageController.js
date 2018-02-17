@@ -23,6 +23,7 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 	$scope.headersArray=[];
 	$scope.dataJsonArray=[];
 	
+	$scope.pageNumber=0;
 	$scope.updateFormData={
 			"exceptionId":null,
 			"dataMap":null,
@@ -65,9 +66,16 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 		$state.go("xmlPocView-page");
 	};
 	
-	$scope.getListData = function(){
+	$scope.getListData = function(newPageNumber){
+		if(undefined != newPageNumber || null != newPageNumber){
+			$scope.pageNumber=newPageNumber;
+		}else{
+			$scope.pageNumber=1;
+		}
+		
+		console.log("-- getDataforPage --: " + $scope.pageNumber);
 		$scope.baseUrl = $location.absUrl().substr(0, $location.absUrl().lastIndexOf("#"));
-		var url = $scope.baseUrl+"xmlPoc/viewFileData";
+		var url = $scope.baseUrl+"xmlPoc/viewFileData/" + $scope.pageNumber;
 		$timeout(function(){
 			xmlPocPageService.getFileData(url, function(result) {
 				$scope.showLoader=false;
@@ -79,6 +87,8 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 				console.log("dataJsonArray: " + $scope.dataJsonArray);
 				
 				$scope.fieldList = result.FIELD_LIST;
+				$scope.totalCount = result.TOTAL_COUNT;
+				$scope.pageSize = result.PAGE_SIZE;
 				//console.log("complete_data: " + angular.toJson($scope.dataMap));
 			});
         });

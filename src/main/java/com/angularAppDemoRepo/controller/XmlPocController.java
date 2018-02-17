@@ -1,6 +1,7 @@
 package com.angularAppDemoRepo.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,9 @@ public class XmlPocController {
 
     @Autowired
     private XmlToJsonUtil xmlToJsonUtil;
+    
+    @Value("${pageSize}")
+    private Integer pageSize;
 
     @GetMapping(value = "/welCome")
     public String helloWorldName() {
@@ -78,19 +83,26 @@ public class XmlPocController {
         return returnString;
     }
 
-    @GetMapping(value = "/viewFileData", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> viewFileData() {
+    @SuppressWarnings("unchecked")
+	@GetMapping(value = "/viewFileData/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> viewFileData(@PathVariable(name="pageNumber") Integer pageNumber) {
         List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<FieldXmlMapping> fieldsList = new ArrayList<FieldXmlMapping>();
+        Map<String, Object> exceptionMap = new HashMap<String, Object>();
         try {
-            exceptionXmls = this.exceptionXmlService.getSavedXmlData();
-            if (null != exceptionXmls && !(exceptionXmls.isEmpty())) {
+        	LOGGER.info("--getDataforPageNumber: " + pageNumber);
+        	exceptionMap = this.exceptionXmlService.getSavedXmlData_Native(pageNumber);
+            if (null != exceptionMap && !(exceptionMap.isEmpty())) {
+            	exceptionXmls = (List<ExceptionXml>) exceptionMap.get("XML_MAP");
                 maps = this.xmlToJsonUtil.getXmlToJsonList(exceptionXmls);
+                
                 fieldsList = this.exceptionXmlService.getListOfFieldXmlMapping();
                 map.put("EXCEPTION_DATA", maps);
                 map.put("FIELD_LIST", fieldsList);
+                map.put("TOTAL_COUNT", exceptionMap.get("TOTAL_COUNT"));
+                map.put("PAGE_SIZE", pageSize);
             }
             XmlPocController.LOGGER.info("xmlmaps : " + maps);
         } catch (Exception e) {

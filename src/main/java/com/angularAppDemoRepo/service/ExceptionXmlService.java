@@ -34,4 +34,6 @@ public interface ExceptionXmlService {
     public List<String> getDataForAutoComplete(String field, String fieldVal);
 
     public List<String> getDataOfDropDownOnEdit(final String field, String componentType);
+    
+    public Map<String, Object> getSavedXmlData_Native(Integer pageNumber);
 }

@@ -2,8 +2,10 @@ package com.angularAppDemoRepo.service;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.sql.Clob;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.thoughtworks.xstream.XStream;
@@ -43,6 +46,9 @@ public class ExceptionXmlServiceImpl implements ExceptionXmlService {
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;
+
+    @Value("${pageSize}")
+    private Integer pageSize;
 
     /*
      * (non-Javadoc)
@@ -395,6 +401,54 @@ public class ExceptionXmlServiceImpl implements ExceptionXmlService {
         }
         return autoCompleteData;
 
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Map<String, Object> getSavedXmlData_Native(Integer pageNumber) {
+        List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
+        Integer totalExceptionXmlCount = 0;
+        Map<String, Object> exceptionMap = new HashMap<String, Object>();
+        List<Object[]> detailsOfResult = new ArrayList<Object[]>();
+        try {
+        	EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+
+        	StringBuilder stringBuilder = new StringBuilder("SELECT EXCEPTION_ID, TO_CLOB(EXCEPTION_FEED) AS EXCEPTION_FEED, EXCEPTION_TYPE FROM EXCEPTION_XML");
+        	
+            ExceptionXmlServiceImpl.LOGGER.info("designXpath_sql: " + stringBuilder.toString());
+            Query query = entityManager.createNativeQuery(stringBuilder.toString());
+            query.setFirstResult((pageNumber-1) * pageSize); 
+            query.setMaxResults(pageSize);
+            
+            detailsOfResult = query.getResultList();
+            exceptionXmls = getListOfObject(detailsOfResult);
+            totalExceptionXmlCount = getTotalCount_Native();
+
+        } catch (Exception e) {
+            ExceptionXmlServiceImpl.LOGGER.error("Exception occured in getSavedXmlData_Native: ", e);
+        }
+        exceptionMap.put("XML_MAP", exceptionXmls);
+        exceptionMap.put("TOTAL_COUNT", totalExceptionXmlCount);
+        return exceptionMap;
+    }
+    
+	private Integer getTotalCount_Native() {
+    	Integer totalCount = 0;
+        try {
+        	EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+
+        	StringBuilder stringBuilder = new StringBuilder("SELECT COUNT(EXCEPTION_ID) FROM EXCEPTION_XML");
+        	
+            ExceptionXmlServiceImpl.LOGGER.info("designXpath_sql: " + stringBuilder.toString());
+            Query query = entityManager.createNativeQuery(stringBuilder.toString());
+            Object object = query.getSingleResult();
+            if(null != object){
+                BigDecimal temp_totalCount = new BigDecimal(object.toString());
+                totalCount = temp_totalCount.intValue();
+            }
+        } catch (Exception e) {
+            ExceptionXmlServiceImpl.LOGGER.error("Exception occured in getTotalCount_Native: ", e);
+        }
+        return totalCount;
     }
 
 }

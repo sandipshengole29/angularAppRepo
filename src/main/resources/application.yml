@@ -1,5 +1,5 @@
 #Application Property
-
+pageSize: 5
 
 #Log file path
 logging:
