@@ -66,16 +66,31 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 		$state.go("xmlPocView-page");
 	};
 	
-	$scope.getListData = function(newPageNumber){
+	$scope.getListData = function(newPageNumber, sortKey, reverse){
+		var url = null;
 		if(undefined != newPageNumber || null != newPageNumber){
 			$scope.pageNumber=newPageNumber;
 		}else{
 			$scope.pageNumber=1;
 		}
 		
+		$scope.sortKey = sortKey;
+		$scope.reverse = reverse;
+		
+        console.log("sortKey: " + $scope.sortKey);
+        console.log("reverse: " + $scope.reverse);
+        $scope.getSort($scope.reverse);
+        console.log("sortOrder: " + $scope.sortOrder);
+        
 		console.log("-- getDataforPage --: " + $scope.pageNumber);
 		$scope.baseUrl = $location.absUrl().substr(0, $location.absUrl().lastIndexOf("#"));
-		var url = $scope.baseUrl+"xmlPoc/viewFileData/" + $scope.pageNumber;
+		if(undefined != $scope.sortKey && undefined != $scope.sortOrder){
+			url = $scope.baseUrl+"xmlPoc/viewFileData/" + $scope.pageNumber +"/"+$scope.sortKey+"/"+$scope.sortOrder;
+		} else {
+			url = $scope.baseUrl+"xmlPoc/viewFileData/" + $scope.pageNumber +"/EXCEPTION_ID/DESC";
+		}
+		
+		
 		$timeout(function(){
 			xmlPocPageService.getFileData(url, function(result) {
 				$scope.showLoader=false;
@@ -97,7 +112,21 @@ app.controller('xmlPocPageController', function($scope, $location, $http, $state
 	$scope.sort = function(keyname){
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+        console.log("sortKey: " + $scope.sortKey);
+        console.log("reverse: " + $scope.reverse);
+        
+        $scope.getListData(1, 'EXCEPTION_ID', $scope.reverse);
     }
+	
+	$scope.getSort = function(reverse){
+		if($scope.reverse){
+        	$scope.sortOrder = "DESC";
+        	console.log("sortOrder: " + $scope.sortOrder);
+        } else {
+        	$scope.sortOrder = "ASC";
+        	console.log("sortOrder: " + $scope.sortOrder);
+        }
+	}
 	
 	$scope.setDataForSearch = function(event, searchField, selectedFieldVal, htmlComponent){
 		//console.log("serachField: " + selectedFieldVal);

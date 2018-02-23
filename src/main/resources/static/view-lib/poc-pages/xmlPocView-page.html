@@ -78,13 +78,13 @@ th {
 							<span ng-if="header=='ID' && $index <= 0">Exception ID</span>
 							<span ng-if="header==fieldData.fieldName">{{fieldData.mappingName}}</span>
 						</span>
-						<span class="glyphicon sort-icon" ng-show="sortKey==header" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+						<span class="glyphicon sort-icon" ng-show="sortKey==header" ng-class="{'glyphicon glyphicon-chevron-up':reverse,'glyphicon glyphicon-chevron-down':!reverse}"></span>
 					</th>
 					<th ng-show="dataMap.length > 0">Edit</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr dir-paginate="row in dataJsonArray |orderBy:sortKey:reverse |itemsPerPage:pageSize" total-items="totalCount">
+				<tr dir-paginate="row in dataJsonArray |itemsPerPage:pageSize" total-items="totalCount">
 					<td ng-repeat="header in headersArray" class="text-center">{{row[header]}}</td>
 					<!-- <td ng-repeat="cell in row" class="text-center">{{cell}}</td> -->
 					<td><button class="btn btn-primary" ng-click="editCurrentRow(row)">Edit</button></td>
@@ -94,7 +94,7 @@ th {
 		<dir-pagination-controls
 	       max-size="5"
 	       direction-links="true"
-	       boundary-links="true" style="padding-left: 36%;" on-page-change="getListData(newPageNumber)">
+	       boundary-links="true" style="padding-left: 36%;" on-page-change="getListData(newPageNumber, sortKey, reverse)">
 	    </dir-pagination-controls>
 	</div>
 </div>

@@ -35,5 +35,5 @@ public interface ExceptionXmlService {
 
     public List<String> getDataOfDropDownOnEdit(final String field, String componentType);
     
-    public Map<String, Object> getSavedXmlData_Native(Integer pageNumber);
+    public Map<String, Object> getSavedXmlData_Native(Integer pageNumber, String sortKey, String sortOrder);
 }

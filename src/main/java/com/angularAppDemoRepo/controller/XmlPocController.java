@@ -84,16 +84,21 @@ public class XmlPocController {
     }
 
     @SuppressWarnings("unchecked")
-	@GetMapping(value = "/viewFileData/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> viewFileData(@PathVariable(name="pageNumber") Integer pageNumber) {
+	@GetMapping(value = "/viewFileData/{pageNumber}/{sortKey}/{sortOrder}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> viewFileData(@PathVariable(name="pageNumber") Integer pageNumber, @PathVariable(name="sortKey") String sortKey,
+    														@PathVariable(name="sortOrder") String sortOrder) {
+    	
         List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         List<FieldXmlMapping> fieldsList = new ArrayList<FieldXmlMapping>();
         Map<String, Object> exceptionMap = new HashMap<String, Object>();
         try {
-        	LOGGER.info("--getDataforPageNumber: " + pageNumber);
-        	exceptionMap = this.exceptionXmlService.getSavedXmlData_Native(pageNumber);
+        	LOGGER.info("--PageNumber: " + pageNumber);
+        	LOGGER.info("--SortKey: " + sortKey);
+        	LOGGER.info("--SortOrder: " + sortOrder);
+        	
+        	exceptionMap = this.exceptionXmlService.getSavedXmlData_Native(pageNumber, sortKey, sortOrder);
             if (null != exceptionMap && !(exceptionMap.isEmpty())) {
             	exceptionXmls = (List<ExceptionXml>) exceptionMap.get("XML_MAP");
                 maps = this.xmlToJsonUtil.getXmlToJsonList(exceptionXmls);

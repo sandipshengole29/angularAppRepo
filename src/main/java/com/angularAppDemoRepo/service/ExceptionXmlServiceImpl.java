@@ -404,7 +404,7 @@ public class ExceptionXmlServiceImpl implements ExceptionXmlService {
     }
     
     @SuppressWarnings("unchecked")
-	public Map<String, Object> getSavedXmlData_Native(Integer pageNumber) {
+	public Map<String, Object> getSavedXmlData_Native(Integer pageNumber, String sortKey, String sortOrder) {
         List<ExceptionXml> exceptionXmls = new ArrayList<ExceptionXml>();
         Integer totalExceptionXmlCount = 0;
         Map<String, Object> exceptionMap = new HashMap<String, Object>();
@@ -412,7 +412,10 @@ public class ExceptionXmlServiceImpl implements ExceptionXmlService {
         try {
         	EntityManager entityManager = this.entityManagerFactory.createEntityManager();
 
-        	StringBuilder stringBuilder = new StringBuilder("SELECT EXCEPTION_ID, TO_CLOB(EXCEPTION_FEED) AS EXCEPTION_FEED, EXCEPTION_TYPE FROM EXCEPTION_XML");
+        	StringBuilder stringBuilder = new StringBuilder("SELECT EXCEPTION_ID, TO_CLOB(EXCEPTION_FEED) AS EXCEPTION_FEED, EXCEPTION_TYPE FROM EXCEPTION_XML ORDER BY ");
+        	stringBuilder.append(sortKey);
+        	stringBuilder.append(" ");
+        	stringBuilder.append(sortOrder);
         	
             ExceptionXmlServiceImpl.LOGGER.info("designXpath_sql: " + stringBuilder.toString());
             Query query = entityManager.createNativeQuery(stringBuilder.toString());
