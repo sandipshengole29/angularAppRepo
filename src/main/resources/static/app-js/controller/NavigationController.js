@@ -44,6 +44,12 @@ app.controller('navigationController', function($scope, $location, $http, $state
 		$scope.manageActive(linkNumber);
 	};
 	
+	$scope.loadAddressBookPage = function(event, linkNumber) {
+		event.preventDefault();
+		$state.go("manageContact-page");
+		$scope.manageActive(linkNumber);
+	};
+	
 	$scope.manageActive = function(linkNumber){
 		for(var i=1;i<=7;i++){
 			if(i===linkNumber){

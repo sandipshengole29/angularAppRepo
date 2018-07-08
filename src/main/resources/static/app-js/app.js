@@ -63,6 +63,18 @@ app.config(function($locationProvider, $urlRouterProvider, $stateProvider) {
 		templateUrl : 'view-lib/showAndHide/showAndHideEdit-page.html',
 		controller : 'showAndHideDemoController'
 	});
+	
+	$stateProvider.state('manageContact-page', {
+		url : '/manageContact-page',
+		templateUrl : 'view-lib/addressbook/manageContact-page.html',
+		controller : 'addressBookController'
+	});
+	
+	$stateProvider.state('addContact-page', {
+		url : '/addContact-page',
+		templateUrl : 'view-lib/addressbook/addContact-page.html',
+		controller : 'addressBookController'
+	});
 
 	$urlRouterProvider.otherwise('/login-page');
 	$locationProvider.html5Mode(false);
