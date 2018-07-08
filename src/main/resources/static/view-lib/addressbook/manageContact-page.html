@@ -1,0 +1,29 @@
+<style>
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
+}
+
+th {
+    cursor:pointer;
+}
+</style>
+<div class="container" style="width: 100%;" ng-init="manageAddressBook();">
+	<div class="panel panel-default">
+		<div class="panel-heading text-center">
+			<strong>Manage Address Book</strong>
+		</div>
+		<div class="col-xl-9">
+			<div class="input-group" style="width: 25%; margin-bottom: -3.3%;">
+			  <span class="input-group-addon" id="basic-addon1"><strong>Name: </strong></span>
+			  <input type="text" id="personName" name="personName" class="form-control" placeholder="Enter Name" aria-describedby="basic-addon1">
+			</div>
+			<button id="addContact" type="button" class="btn btn-danger pull-right" ng-click="showHomePage();" style="margin-right: 1%;">Cancel</button>
+			<button id="addContact" type="button" class="btn btn-primary pull-right" ng-click="addNewContact();" style="margin-right: 1%;">Add</button>
+		</div>
+		<table class="table table-striped">
+			<thead></thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
